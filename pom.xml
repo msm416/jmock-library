@@ -65,6 +65,7 @@
         <module>jmock-legacy</module>
         <module>jmock-example</module>
         <module>jmock-imposters-tests</module>
+        <module>xmock</module>
     </modules>
 
     <build>
