@@ -1,3 +1,6 @@
+import example.classes.*;
+import org.jmock.Expectations;
+import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -11,12 +14,12 @@ public class BasicTest {
     static final List<Long> FRIEND_IDS = Arrays.asList(2222L, 3333L, 4444L, 5555L);
 
     @Rule
-    public PerformanceMockery context = new PerformanceMockery();
+    public JUnitRuleMockery context = new JUnitRuleMockery();
 
     @Test
     public void looksUpDetailsForEachFriend() {
-        final SocialGraph socialGraph = context.mock(SocialGraph.class, constant(200));
-        final UserDetailsService userDetails = context.mock(UserDetailsService.class, constant(100));
+        final SocialGraph socialGraph = context.mock(SocialGraph.class);
+        final UserDetailsService userDetails = context.mock(UserDetailsService.class);
         //context.enableDebug();
 
         context.repeat(1000, () -> {
