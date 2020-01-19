@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.math3.distribution.AbstractRealDistribution;
 import org.hamcrest.Description;
 import org.hamcrest.SelfDescribing;
 import org.jmock.api.Expectation;
@@ -56,6 +57,7 @@ public class Mockery implements SelfDescribing {
     private InvocationDispatcher dispatcher = threadingPolicy.dispatcher();
 
     private Error firstError = null;
+    private ArrayList<Double> runtimes = new ArrayList<>();
 
     /* 
      * Policies
@@ -165,6 +167,10 @@ public class Mockery implements SelfDescribing {
                         CaptureControl.class, mock, mock)));
         
         return imposteriser.imposterise(invokable, typeToMock, CaptureControl.class);
+    }
+
+    public <T> T mockWithPerf(Class<T> typeToMock, AbstractRealDistribution distribution) {
+        return mock(typeToMock);
     }
     
     /** 
@@ -283,6 +289,10 @@ public class Mockery implements SelfDescribing {
         }, e.invocation);
         filledIn.setStackTrace(e.getStackTrace());
         return filledIn;
+    }
+
+    public double runtime() {
+	    return 1d;
     }
 
     private class MockObject implements Invokable, CaptureControl {
