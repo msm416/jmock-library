@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.math3.distribution.AbstractRealDistribution;
 import org.hamcrest.Matcher;
 import org.jmock.Sequence;
 import org.jmock.api.Action;
@@ -54,6 +55,10 @@ public class InvocationExpectationBuilder
     public void setAction(Action action) {
         expectation.setAction(action);
         needsDefaultAction = false;
+    }
+
+    public void setModel(AbstractRealDistribution distribution) {
+        expectation.setPerformanceModel(distribution);
     }
     
     public void addSideEffect(SideEffect sideEffect) {

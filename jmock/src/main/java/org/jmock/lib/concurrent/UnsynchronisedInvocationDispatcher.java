@@ -10,11 +10,13 @@ import org.jmock.api.Expectation;
 import org.jmock.api.ExpectationError;
 import org.jmock.api.Invocation;
 import org.jmock.api.InvocationDispatcher;
+import org.jmock.internal.InvocationExpectation;
 import org.jmock.internal.StateMachine;
 
 public class UnsynchronisedInvocationDispatcher implements InvocationDispatcher {
     private final Collection<Expectation> expectations;
     private final Collection<StateMachine> stateMachines;
+    private double totalVirtualTime = 0d;
 
     public UnsynchronisedInvocationDispatcher() {
         expectations = new ArrayList<Expectation>();
@@ -112,11 +114,22 @@ public class UnsynchronisedInvocationDispatcher implements InvocationDispatcher 
     public Object dispatch(Invocation invocation) throws Throwable {
         for (Expectation expectation : expectations) {
             if (expectation.matches(invocation)) {
+                InvocationExpectation invocationExpectation = ((InvocationExpectation)expectation);
+                if(invocationExpectation.getPerformanceModel() != null) {
+                    double sample = invocationExpectation.getPerformanceModel().sample();
+                    totalVirtualTime += sample;
+                    System.out.println("WE SAMPLED: " + sample);
+                }
                 return expectation.invoke(invocation);
             }
         }
 
         throw ExpectationError.unexpected("unexpected invocation", invocation);
+    }
+
+    @Override
+    public double totalVirtualTime(){
+        return totalVirtualTime;
     }
 
 }

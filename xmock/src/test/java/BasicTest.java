@@ -21,7 +21,7 @@ public class BasicTest {
 
     @Test
     public void looksUpDetailsForEachFriend() {
-        final SocialGraph socialGraph = context.mockWithPerf(SocialGraph.class, new NormalDistribution(100, 10));
+        final SocialGraph socialGraph = context.mock(SocialGraph.class);
         final UserDetailsService userDetails = context.mock(UserDetailsService.class);
         //context.enableDebug();
 
@@ -30,16 +30,16 @@ public class BasicTest {
             context.checking(new Expectations() {{
                 exactly(1).of(socialGraph).query(USER_ID);
                 will(returnValue(FRIEND_IDS));
-                //inTime(normalDist(100, 10));
+                inTime(new NormalDistribution(100, 10));
                 exactly(4).of(userDetails).lookup(with(any(Long.class)));
                 will(returnValue(new User()));
-                //inTime(constant(100));
+                inTime(new NormalDistribution(100, 10));
             }});
 
             new ProfileController(socialGraph, userDetails).lookUpFriends(USER_ID);
 //        });
 
         //assertThat(context.runtimes(), hasPercentile(80, lessThan(700.0)));
-        assertThat(context.runtime(), lessThan(700.0));
+        assertThat(context.totalVirtualTime(), lessThan(700.0));
     }
 }

@@ -17,4 +17,8 @@ public interface InvocationDispatcher extends SelfDescribing, ExpectationCollect
     boolean isSatisfied();
 
     Object dispatch(Invocation invocation) throws Throwable;
+
+    default double totalVirtualTime() {
+        return 0d;
+    }
 }

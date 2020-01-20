@@ -1,5 +1,6 @@
 package org.jmock;
 
+import org.apache.commons.math3.distribution.AbstractRealDistribution;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.*;
@@ -231,6 +232,10 @@ public abstract class AbstractExpectations implements ExpectationBuilder,
     
     public void will(Action action) {
         currentBuilder().setAction(action);
+    }
+
+    public void inTime(AbstractRealDistribution model) {
+        currentBuilder().setModel(model);
     }
     
     /* Common constraints

@@ -1,5 +1,6 @@
 package org.jmock.internal;
 
+import org.apache.commons.math3.distribution.AbstractRealDistribution;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsAnything;
@@ -33,6 +34,8 @@ public class InvocationExpectation implements Expectation {
     private List<SideEffect> sideEffects = new ArrayList<SideEffect>();
     
 	private int invocationCount = 0;
+
+	private AbstractRealDistribution model;
 	
     public void setCardinality(Cardinality cardinality) {
         this.cardinality = cardinality;
@@ -72,6 +75,14 @@ public class InvocationExpectation implements Expectation {
     public void setDefaultAction(Action action) {
         this.action = action;
         this.actionIsDefault = true;
+    }
+
+    public void setPerformanceModel(AbstractRealDistribution model) {
+        this.model = model;
+    }
+
+    public AbstractRealDistribution getPerformanceModel() {
+        return model;
     }
     
     public void describeTo(Description description) {

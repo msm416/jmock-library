@@ -1,9 +1,6 @@
 package org.jmock;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.commons.math3.distribution.AbstractRealDistribution;
 import org.hamcrest.Description;
@@ -57,7 +54,6 @@ public class Mockery implements SelfDescribing {
     private InvocationDispatcher dispatcher = threadingPolicy.dispatcher();
 
     private Error firstError = null;
-    private ArrayList<Double> runtimes = new ArrayList<>();
 
     /* 
      * Policies
@@ -167,10 +163,6 @@ public class Mockery implements SelfDescribing {
                         CaptureControl.class, mock, mock)));
         
         return imposteriser.imposterise(invokable, typeToMock, CaptureControl.class);
-    }
-
-    public <T> T mockWithPerf(Class<T> typeToMock, AbstractRealDistribution distribution) {
-        return mock(typeToMock);
     }
     
     /** 
@@ -291,8 +283,9 @@ public class Mockery implements SelfDescribing {
         return filledIn;
     }
 
-    public double runtime() {
-	    return 1d;
+    public double totalVirtualTime() {
+        System.out.println("Total virtual time: " + dispatcher.totalVirtualTime());
+	    return dispatcher.totalVirtualTime();
     }
 
     private class MockObject implements Invokable, CaptureControl {
